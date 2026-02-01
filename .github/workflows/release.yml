@@ -7,6 +7,10 @@ on:
       - 'pom.xml'  # 只在版本文件变更时触发
       - 'src/**'   # 代码变更时触发
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
