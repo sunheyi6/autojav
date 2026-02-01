@@ -1,0 +1,47 @@
+openapi: 3.0.0
+info:
+  title: 接口文档
+  version: 1.0.0
+  description: 自动生成的接口文档
+paths:
+  '/index/index':
+    get :
+      summary: index
+      description: 
+      parameters:
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+  '/index/config':
+    get :
+      summary: config
+      description: 
+      parameters:
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
+  '/index/decorate':
+    get :
+      summary: decorate
+      description: 
+      parameters:
+        - name: pageType
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                type: object
