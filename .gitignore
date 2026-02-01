@@ -54,6 +54,9 @@ release.properties
 # License files
 .autojav.license
 
+# Configuration files
+.autojav.properties
+
 # Test files
 test-files/
 
