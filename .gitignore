@@ -55,7 +55,8 @@ release.properties
 .autojav.license
 
 # Configuration files
-.autojav.properties
+# .autojav.properties - 保留在版本控制中，使用占位符替换实际API密钥
+.autojav.properties.local
 
 # Test files
 test-files/
