@@ -53,3 +53,7 @@ release.properties
 
 # License files
 .autojav.license
+
+# Test files
+test-files/
+
