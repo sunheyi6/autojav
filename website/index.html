@@ -437,6 +437,205 @@
         </div>
     </section>
 
+    <!-- Documentation Section -->
+    <section id="docs" class="py-20 lg:py-32 bg-gray-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-4">使用文档</h2>
+                <p class="text-xl text-gray-600">快速上手 AutoJava，提升你的开发效率</p>
+            </div>
+
+            <!-- Quick Start -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">1</span>
+                    快速开始
+                </h3>
+                <div class="space-y-4 text-gray-700">
+                    <p><strong>环境要求：</strong>Java 17 或更高版本</p>
+                    <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                        <pre class="text-sm text-gray-300"><code># 1. 下载 JAR 包（点击上方下载按钮）
+
+# 2. 验证安装
+java -jar autojav-cli-1.0.0.jar --help
+
+# 3. 查看版本
+java -jar autojav-cli-1.0.0.jar --version</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuration -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">2</span>
+                    配置 AI 服务（可选）
+                </h3>
+                <div class="space-y-4 text-gray-700">
+                    <p>如需使用 AI 功能，需要配置 API 密钥。支持 Kimi、通义千问、文心一言等。</p>
+                    <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                        <pre class="text-sm text-gray-300"><code># 配置 Kimi API 密钥
+java -jar autojav-cli-1.0.0.jar config set ai.api.key sk-your-api-key
+
+# 配置 AI 服务商（kimi/qwen/ernie/spark）
+java -jar autojav-cli-1.0.0.jar config set ai.service.type kimi
+
+# 查看所有配置
+java -jar autojav-cli-1.0.0.jar config list</code></pre>
+                    </div>
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                        <p class="text-sm text-blue-700"><strong>提示：</strong>API 密钥仅存储在本地，不会上传到任何服务器。免费版无需配置 AI 即可使用基础功能。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Audit -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">3</span>
+                    代码审计
+                </h3>
+                <div class="space-y-6 text-gray-700">
+                    <div>
+                        <h4 class="font-semibold text-secondary mb-2">基础审计（免费版可用）</h4>
+                        <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                            <pre class="text-sm text-gray-300"><code># 审计单个文件
+java -jar autojav-cli-1.0.0.jar audit UserService.java
+
+# 递归审计整个目录
+java -jar autojav-cli-1.0.0.jar audit src/ -r
+
+# 输出审计报告到文件
+java -jar autojav-cli-1.0.0.jar audit src/ -r -o report.txt</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-secondary mb-2">AI 深度审计（团队版+）</h4>
+                        <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                            <pre class="text-sm text-gray-300"><code># 使用 AI 进行深度分析
+java -jar autojav-cli-1.0.0.jar audit UserService.java -ai</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-secondary mb-2">支持的审计规则</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 ml-4">
+                            <li>空指针异常风险检测</li>
+                            <li>SQL 注入风险检测</li>
+                            <li>更多规则持续更新中...</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Fix -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">4</span>
+                    代码修复（团队版+）
+                </h3>
+                <div class="space-y-4 text-gray-700">
+                    <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                        <pre class="text-sm text-gray-300"><code># 预览修复（不实际修改文件）
+java -jar autojav-cli-1.0.0.jar audit UserService.java -f -p
+
+# 执行修复（自动备份原文件）
+java -jar autojav-cli-1.0.0.jar audit UserService.java -f
+
+# 修复整个目录（逐个确认）
+java -jar autojav-cli-1.0.0.jar audit src/ -r -f</code></pre>
+                    </div>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
+                        <p class="text-sm text-yellow-700"><strong>注意：</strong>修复前会自动创建 .backup.时间戳.java 备份文件。修复后请仔细审查变更，必要时可手动恢复。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doc Generation -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">5</span>
+                    接口文档生成
+                </h3>
+                <div class="space-y-4 text-gray-700">
+                    <p>自动解析 Spring Boot 项目的 Controller 接口，生成标准化文档。</p>
+                    <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                        <pre class="text-sm text-gray-300"><code># 生成 Markdown 格式文档
+java -jar autojav-cli-1.0.0.jar doc src/ -f markdown -o api.md
+
+# 生成 OpenAPI (Swagger) JSON 格式
+java -jar autojav-cli-1.0.0.jar doc src/ -f openapi -o api.json
+
+# 递归扫描所有子目录
+java -jar autojav-cli-1.0.0.jar doc src/ -r -f markdown -o api.md</code></pre>
+                    </div>
+                    <div class="text-sm text-gray-600">
+                        <p class="font-medium mb-2">支持的注解：</p>
+                        <code class="bg-gray-100 px-2 py-1 rounded">@RestController</code>
+                        <code class="bg-gray-100 px-2 py-1 rounded">@GetMapping</code>
+                        <code class="bg-gray-100 px-2 py-1 rounded">@PostMapping</code>
+                        <code class="bg-gray-100 px-2 py-1 rounded">@PutMapping</code>
+                        <code class="bg-gray-100 px-2 py-1 rounded">@DeleteMapping</code>
+                        <code class="bg-gray-100 px-2 py-1 rounded">@RequestMapping</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- License Management -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">6</span>
+                    许可证管理
+                </h3>
+                <div class="space-y-6 text-gray-700">
+                    <div>
+                        <h4 class="font-semibold text-secondary mb-2">免费试用</h4>
+                        <p class="mb-2">新用户自动获得 7 天团队版试用，或使用命令手动开启：</p>
+                        <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                            <pre class="text-sm text-gray-300"><code>java -jar autojav-cli-1.0.0.jar license trial</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-secondary mb-2">激活正式版</h4>
+                        <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                            <pre class="text-sm text-gray-300"><code># 激活许可证
+java -jar autojav-cli-1.0.0.jar license activate YOUR-LICENSE-KEY
+
+# 查看许可证信息
+java -jar autojav-cli-1.0.0.jar license info</code></pre>
+                        </div>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                        <p class="text-sm text-green-700"><strong>免费版：</strong>永久可用，包含基础代码审计和文档生成功能。升级到团队版解锁 AI 深度审计和代码修复。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CI/CD Integration -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">7</span>
+                    CI/CD 集成示例
+                </h3>
+                <div class="space-y-4 text-gray-700">
+                    <p>在持续集成流程中自动执行代码审计：</p>
+                    <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                        <pre class="text-sm text-gray-300"><code># GitHub Actions 示例
+- name: Code Audit
+  run: |
+    wget https://autojav.vercel.app/autojav-cli-1.0.0.jar
+    java -jar autojav-cli-1.0.0.jar audit src/ -r -o audit-report.txt
+    
+# GitLab CI 示例
+code_audit:
+  script:
+    - wget https://autojav.vercel.app/autojav-cli-1.0.0.jar
+    - java -jar autojav-cli-1.0.0.jar audit src/ -r</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- FAQ Section -->
     <section class="py-20">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
