@@ -5,7 +5,6 @@ import com.autojav.core.TerminalUtils;
 import com.autojav.core.doc.DocGenerationException;
 import com.autojav.core.doc.DocGenerator;
 import com.autojav.core.doc.DocGeneratorFactory;
-import com.autojav.core.license.LicenseManager;
 import com.github.javaparser.ast.CompilationUnit;
 import picocli.CommandLine;
 
@@ -28,33 +27,16 @@ public class DocCommand implements Callable<Integer> {
     @CommandLine.Option(names = {"-o", "--output"}, description = "文档输出文件或目录")
     private String output;
 
-    @CommandLine.Option(names = {"-t", "--template"}, description = "自定义模板文件")
-    private String template;
-
     @CommandLine.Option(names = {"-r", "--recursive"}, description = "递归处理目录")
     private boolean recursive;
 
-    private LicenseManager licenseManager;
-
     @Override
     public Integer call() throws Exception {
-        licenseManager = new LicenseManager();
-
         TerminalUtils.printInfo("开始生成文档: " + path);
         TerminalUtils.printInfo("文档格式: " + format);
         TerminalUtils.printInfo("递归处理: " + recursive);
         if (output != null) {
             TerminalUtils.printInfo("输出路径: " + output);
-        }
-        if (template != null) {
-            TerminalUtils.printInfo("自定义模板: " + template);
-        }
-
-        // 检查自定义模板功能是否可用（免费版限制）
-        if (template != null) {
-            if (!licenseManager.checkAndApplyRestriction("custom.template")) {
-                return 1;
-            }
         }
 
         // 创建代码解析器
@@ -105,6 +87,7 @@ public class DocCommand implements Callable<Integer> {
                 docContent = docGenerator.generate(compilationUnits);
                 TerminalUtils.printSuccess("文档生成成功");
                 System.out.println(docContent);
+                TerminalUtils.printInfo("提示: 使用 -o 参数指定输出文件，例如: -o api.md");
             } catch (DocGenerationException e) {
                 TerminalUtils.printError("文档生成失败: " + e.getMessage());
                 return 1;
