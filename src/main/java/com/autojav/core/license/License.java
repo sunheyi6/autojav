@@ -38,6 +38,16 @@ public class License {
     private LicenseStatus status;
 
     /**
+     * 是否为试用许可证
+     */
+    private boolean trial = false;
+
+    /**
+     * 机器指纹（用于绑定设备）
+     */
+    private String machineFingerprint;
+
+    /**
      * 检查许可证是否有效
      * @return 是否有效
      */
@@ -66,6 +76,7 @@ public class License {
      */
     public enum LicenseStatus {
         ACTIVE("激活"),
+        TRIAL("试用中"),
         EXPIRED("过期"),
         REVOKED("已撤销"),
         INVALID("无效");

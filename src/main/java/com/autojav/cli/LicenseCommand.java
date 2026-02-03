@@ -12,7 +12,7 @@ import java.util.concurrent.Callable;
 )
 public class LicenseCommand implements Callable<Integer> {
 
-    @CommandLine.Parameters(index = "0", description = "许可证操作: activate, info")
+    @CommandLine.Parameters(index = "0", description = "许可证操作: activate, info, trial")
     private String operation;
 
     @CommandLine.Parameters(index = "1", description = "许可证密钥", arity = "0..1")
@@ -33,6 +33,9 @@ public class LicenseCommand implements Callable<Integer> {
             case "info":
                 licenseManager.showLicenseInfo();
                 return 0;
+            case "trial":
+                boolean trialStarted = licenseManager.startTrialFromCommand();
+                return trialStarted ? 0 : 1;
             default:
                 TerminalUtils.printError("不支持的操作: " + operation);
                 return 1;
