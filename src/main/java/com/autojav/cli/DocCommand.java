@@ -87,7 +87,12 @@ public class DocCommand implements Callable<Integer> {
                 docContent = docGenerator.generate(compilationUnits);
                 TerminalUtils.printSuccess("文档生成成功");
                 System.out.println(docContent);
-                TerminalUtils.printInfo("提示: 使用 -o 参数指定输出文件，例如: -o api.md");
+                TerminalUtils.printInfo("提示: 文档已输出到控制台，使用 -o 参数指定输出文件位置");
+                TerminalUtils.printInfo("示例:");
+                TerminalUtils.printInfo("  - 相对路径: -o api.md");
+                TerminalUtils.printInfo("  - 绝对路径: -o D:\\docs\\api.md");
+                TerminalUtils.printInfo("  - 不同格式: -o api.json (OpenAPI JSON格式)");
+                TerminalUtils.printInfo("  - 目录输出: -o docs/ (生成到指定目录)");
             } catch (DocGenerationException e) {
                 TerminalUtils.printError("文档生成失败: " + e.getMessage());
                 return 1;
