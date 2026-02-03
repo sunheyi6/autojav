@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用文档 - AutoJava</title>
+    <meta name="description" content="AutoJava 使用文档，快速上手 Java 后端 AI 提效工具">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#2563eb',
+                        'primary-dark': '#1d4ed8',
+                        secondary: '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .code-block {
+            position: relative;
+        }
+        .code-block .copy-btn {
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+        .code-block .copy-btn.copied {
+            opacity: 1;
+        }
+        .sidebar-link.active {
+            color: #2563eb;
+            border-left-color: #2563eb;
+            background-color: #eff6ff;
+        }
+        .sidebar-link {
+            border-left: 3px solid transparent;
+        }
+        .toc-item {
+            padding-left: 1rem;
+        }
+        .toc-item.toc-subitem {
+            padding-left: 2rem;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="text-2xl font-bold text-secondary">Auto<span class="text-primary">Java</span></a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-primary transition">首页</a>
+                    <a href="index.html#features" class="text-gray-600 hover:text-primary transition">功能</a>
+                    <a href="index.html#pricing" class="text-gray-600 hover:text-primary transition">定价</a>
+                    <span class="text-primary font-medium">文档</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html#download" class="bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-lg font-medium transition">免费下载</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Button -->
+    <button id="menuToggle" class="md:hidden fixed top-20 left-4 z-40 bg-white p-2 rounded-lg shadow-lg border border-gray-200">
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <!-- Main Content -->
+    <div class="pt-20 flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar fixed left-0 top-20 bottom-0 w-72 bg-white border-r border-gray-200 overflow-y-auto z-30 hidden md:block">
+            <div class="p-6">
+                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">文档目录</h3>
+                <nav class="space-y-1">
+                    <a href="#quickstart" class="sidebar-link toc-item block py-2 px-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition rounded-r-lg">快速开始</a>
+                    <a href="#config" class="sidebar-link toc-item block py-2 px-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition rounded-r-lg">配置 AI 服务</a>
+                    <a href="#audit" class="sidebar-link toc-item block py-2 px-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition rounded-r-lg">代码审计</a>
+                    <a href="#examples" class="sidebar-link toc-item block py-2 px-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition rounded-r-lg">使用示例</a>
+                    <a href="#fix" class="sidebar-link toc-item block py-2 px-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition rounded-r-lg">代码修复</a>
+                    <a href="#doc" class="sidebar-link toc-item block py-2 px-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition rounded-r-lg">接口文档生成</a>
+                    <a href="#license" class="sidebar-link toc-item block py-2 px-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition rounded-r-lg">许可证管理</a>
+                    <a href="#cicd" class="sidebar-link toc-item block py-2 px-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition rounded-r-lg">CI/CD 集成</a>
+                    <a href="#faq" class="sidebar-link toc-item block py-2 px-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary transition rounded-r-lg">常见问题</a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Content -->
+        <main class="flex-1 md:ml-72 p-6 lg:p-10">
+            <div class="max-w-4xl mx-auto">
+                <!-- Page Header -->
+                <div class="mb-12">
+                    <h1 class="text-4xl font-bold text-secondary mb-4">使用文档</h1>
+                    <p class="text-xl text-gray-600">快速上手 AutoJava，提升你的开发效率</p>
+                </div>
+
+                <!-- Quick Start -->
+                <section id="quickstart" class="mb-16 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                        <span class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-sm">1</span>
+                        快速开始
+                    </h2>
+                    <div class="bg-white rounded-2xl border border-gray-200 p-8">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-2">环境要求</h3>
+                                <p class="text-gray-600">Java 17 或更高版本</p>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-3">下载与安装</h3>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code># 1. 下载 JAR 包（从首页点击下载按钮）
+
+# 2. 验证安装
+java -jar autojav-cli-1.0.0.jar --help
+
+# 3. 查看版本
+java -jar autojav-cli-1.0.0.jar --version</code></pre>
+                                </div>
+                            </div>
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                                <p class="text-sm text-blue-700"><strong>提示：</strong>无需安装，直接使用 JAR 包即可运行。确保已安装 Java 17 或更高版本。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Configuration -->
+                <section id="config" class="mb-16 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                        <span class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-sm">2</span>
+                        配置 AI 服务（可选）
+                    </h2>
+                    <div class="bg-white rounded-2xl border border-gray-200 p-8">
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-gray-600 mb-4">如需使用 AI 功能，需要配置 API 密钥。支持 Kimi、通义千问、文心一言等。</p>
+                                <h3 class="font-semibold text-secondary mb-3">基础配置</h3>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code># 配置 Kimi API 密钥
+java -jar autojav-cli-1.0.0.jar config set ai.api.key sk-your-api-key
+
+# 配置 AI 服务商（kimi/qwen/ernie/spark）
+java -jar autojav-cli-1.0.0.jar config set ai.service.type kimi
+
+# 查看所有配置
+java -jar autojav-cli-1.0.0.jar config list</code></pre>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-3">高级配置</h3>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code># 设置 AI 模型名称
+java -jar autojav-cli-1.0.0.jar config set ai.model.name moonshot-v1
+
+# 设置 AI 温度参数（0.0-1.0，默认0.3）
+java -jar autojav-cli-1.0.0.jar config set ai.temperature 0.5
+
+# 设置 API 请求超时时间（秒）
+java -jar autojav-cli-1.0.0.jar config set ai.timeout.seconds 60</code></pre>
+                                </div>
+                            </div>
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                                <p class="text-sm text-blue-700"><strong>提示：</strong>API 密钥仅存储在本地，不会上传到任何服务器。免费版无需配置 AI 即可使用基础功能。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Code Audit -->
+                <section id="audit" class="mb-16 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                        <span class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-sm">3</span>
+                        代码审计
+                    </h2>
+                    <div class="bg-white rounded-2xl border border-gray-200 p-8">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-3">基础审计（免费版可用）</h3>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code># 审计单个文件
+java -jar autojav-cli-1.0.0.jar audit UserService.java
+
+# 递归审计整个目录
+java -jar autojav-cli-1.0.0.jar audit src/ -r
+
+# 输出审计报告到文件
+java -jar autojav-cli-1.0.0.jar audit src/ -r -o report.txt</code></pre>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-3">AI 深度审计（团队版+）</h3>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code># 使用 AI 进行深度分析
+java -jar autojav-cli-1.0.0.jar audit UserService.java -ai
+
+# AI 深度审计并生成详细报告
+java -jar autojav-cli-1.0.0.jar audit src/ -r -ai -o ai-report.txt</code></pre>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-3">支持的审计规则</h3>
+                                <ul class="list-disc list-inside space-y-2 text-gray-600 ml-4">
+                                    <li>空指针异常风险检测</li>
+                                    <li>SQL 注入风险检测</li>
+                                    <li>资源未关闭检测</li>
+                                    <li>空集合/数组遍历检测</li>
+                                    <li>更多规则持续更新中...</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Examples -->
+                <section id="examples" class="mb-16 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                        <span class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-sm">4</span>
+                        使用示例
+                    </h2>
+                    <div class="bg-white rounded-2xl border border-gray-200 p-8">
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-gray-600 mb-4">我们提供了完整的测试案例，帮助你快速了解 AutoJava 的功能和使用方法。测试案例位于项目根目录的 <code class="bg-gray-100 px-2 py-1 rounded text-sm">examples/</code> 目录下。</p>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code># 查看示例目录
+ls examples/
+
+# 批量审计所有示例
+java -jar autojav-cli-1.0.0.jar audit examples/ -r
+
+# 生成审计报告
+java -jar autojav-cli-1.0.0.jar audit examples/ -r -o examples-report.txt</code></pre>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-3">示例 1: SQL 注入问题</h3>
+                                <p class="text-gray-600 mb-3">展示如何检测和修复 SQL 注入风险问题。</p>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code># 审计 SQL 注入示例
+java -jar autojav-cli-1.0.0.jar audit examples/sql-injection/UserService.java
+
+# AI 深度分析并修复
+java -jar autojav-cli-1.0.0.jar audit examples/sql-injection/UserService.java -ai -f</code></pre>
+                                </div>
+                                <div class="mt-3 bg-red-50 border-l-4 border-red-500 p-3 rounded">
+                                    <p class="text-sm text-red-700"><strong>问题类型：</strong>SQL 注入风险</p>
+                                    <p class="text-sm text-red-700"><strong>影响：</strong>可能导致数据库被恶意操作</p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-3">示例 2: 空指针异常问题</h3>
+                                <p class="text-gray-600 mb-3">展示如何检测和修复空指针异常风险。</p>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code># 审计空指针异常示例
+java -jar autojav-cli-1.0.0.jar audit examples/null-pointer/OrderService.java
+
+# AI 深度分析并修复
+java -jar autojav-cli-1.0.0.jar audit examples/null-pointer/OrderService.java -ai -f</code></pre>
+                                </div>
+                                <div class="mt-3 bg-orange-50 border-l-4 border-orange-500 p-3 rounded">
+                                    <p class="text-sm text-orange-700"><strong>问题类型：</strong>空指针异常风险</p>
+                                    <p class="text-sm text-orange-700"><strong>影响：</strong>可能导致程序崩溃</p>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-3">示例 3: 资源未关闭问题</h3>
+                                <p class="text-gray-600 mb-3">展示如何检测和修复资源泄漏问题。</p>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code># 审计资源未关闭示例
+java -jar autojav-cli-1.0.0.jar audit examples/resource-leak/FileProcessor.java
+
+# AI 深度分析并修复
+java -jar autojav-cli-1.0.0.jar audit examples/resource-leak/FileProcessor.java -ai -f</code></pre>
+                                </div>
+                                <div class="mt-3 bg-yellow-50 border-l-4 border-yellow-500 p-3 rounded">
+                                    <p class="text-sm text-yellow-700"><strong>问题类型：</strong>资源泄漏</p>
+                                    <p class="text-sm text-yellow-700"><strong>影响：</strong>可能导致性能问题和系统资源耗尽</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                                <p class="text-sm text-blue-700"><strong>提示：</strong>更多示例和详细说明请查看 <a href="../examples/README.md" class="underline font-medium">examples/README.md</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Code Fix -->
+                <section id="fix" class="mb-16 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                        <span class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-sm">5</span>
+                        代码修复（团队版+）
+                    </h2>
+                    <div class="bg-white rounded-2xl border border-gray-200 p-8">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-3">修复命令</h3>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code># 预览修复（不实际修改文件）
+java -jar autojav-cli-1.0.0.jar audit UserService.java -f -p
+
+# 执行修复（自动备份原文件）
+java -jar autojav-cli-1.0.0.jar audit UserService.java -f
+
+# 修复整个目录（逐个确认）
+java -jar autojav-cli-1.0.0.jar audit src/ -r -f
+
+# AI 深度分析并自动修复
+java -jar autojav-cli-1.0.0.jar audit UserService.java -ai -f</code></pre>
+                                </div>
+                            </div>
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
+                                <p class="text-sm text-yellow-700"><strong>注意：</strong>修复前会自动创建 .backup.时间戳.java 备份文件。修复后请仔细审查变更，必要时可手动恢复。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Doc Generation -->
+                <section id="doc" class="mb-16 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                        <span class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-sm">6</span>
+                        接口文档生成
+                    </h2>
+                    <div class="bg-white rounded-2xl border border-gray-200 p-8">
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-gray-600 mb-4">自动解析 Spring Boot 项目的 Controller 接口，生成标准化文档。</p>
+                                <h3 class="font-semibold text-secondary mb-3">生成命令</h3>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code># 生成 Markdown 格式文档
+java -jar autojav-cli-1.0.0.jar doc src/ -f markdown -o api.md
+
+# 生成 OpenAPI (Swagger) JSON 格式
+java -jar autojav-cli-1.0.0.jar doc src/ -f openapi -o api.json
+
+# 递归扫描所有子目录
+java -jar autojav-cli-1.0.0.jar doc src/ -r -f markdown -o api.md</code></pre>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-3">支持的注解</h3>
+                                <div class="flex flex-wrap gap-2">
+                                    <code class="bg-gray-100 px-3 py-1 rounded text-sm font-mono">@RestController</code>
+                                    <code class="bg-gray-100 px-3 py-1 rounded text-sm font-mono">@GetMapping</code>
+                                    <code class="bg-gray-100 px-3 py-1 rounded text-sm font-mono">@PostMapping</code>
+                                    <code class="bg-gray-100 px-3 py-1 rounded text-sm font-mono">@PutMapping</code>
+                                    <code class="bg-gray-100 px-3 py-1 rounded text-sm font-mono">@DeleteMapping</code>
+                                    <code class="bg-gray-100 px-3 py-1 rounded text-sm font-mono">@RequestMapping</code>
+                                    <code class="bg-gray-100 px-3 py-1 rounded text-sm font-mono">@RequestParam</code>
+                                    <code class="bg-gray-100 px-3 py-1 rounded text-sm font-mono">@RequestBody</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- License Management -->
+                <section id="license" class="mb-16 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                        <span class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-sm">7</span>
+                        许可证管理
+                    </h2>
+                    <div class="bg-white rounded-2xl border border-gray-200 p-8">
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-3">免费试用</h3>
+                                <p class="mb-3 text-gray-600">新用户自动获得 7 天团队版试用，或使用命令手动开启：</p>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code># 开启免费试用
+java -jar autojav-cli-1.0.0.jar license trial</code></pre>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-3">激活正式版</h3>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code># 激活许可证
+java -jar autojav-cli-1.0.0.jar license activate YOUR-LICENSE-KEY
+
+# 查看许可证信息
+java -jar autojav-cli-1.0.0.jar license info</code></pre>
+                                </div>
+                            </div>
+                            <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                                <p class="text-sm text-green-700"><strong>免费版：</strong>永久可用，包含基础代码审计和文档生成功能。升级到团队版解锁 AI 深度审计和代码修复。</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CI/CD Integration -->
+                <section id="cicd" class="mb-16 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                        <span class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-sm">8</span>
+                        CI/CD 集成
+                    </h2>
+                    <div class="bg-white rounded-2xl border border-gray-200 p-8">
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-gray-600 mb-4">在持续集成流程中自动执行代码审计：</p>
+                                <h3 class="font-semibold text-secondary mb-3">GitHub Actions</h3>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code>name: Code Audit
+
+on: [push, pull_request]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Download AutoJava
+        run: wget https://autojav.vercel.app/autojav-cli-1.0.0.jar
+      - name: Run Code Audit
+        run: |
+          java -jar autojav-cli-1.0.0.jar audit src/ -r -o audit-report.txt
+          cat audit-report.txt</code></pre>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-secondary mb-3">GitLab CI</h3>
+                                <div class="code-block bg-secondary rounded-xl p-4 overflow-x-auto">
+                                    <button class="copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition" onclick="copyCode(this)">
+                                        复制
+                                    </button>
+                                    <pre class="text-sm text-gray-300 font-mono"><code>code_audit:
+  image: eclipse-temurin:17-jdk
+  script:
+    - wget https://autojav.vercel.app/autojav-cli-1.0.0.jar
+    - java -jar autojav-cli-1.0.0.jar audit src/ -r -o audit-report.txt
+  artifacts:
+    paths:
+      - audit-report.txt
+    expire_in: 1 week</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FAQ -->
+                <section id="faq" class="mb-16 scroll-mt-24">
+                    <h2 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                        <span class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-sm">9</span>
+                        常见问题
+                    </h2>
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-2xl border border-gray-200 p-6">
+                            <h3 class="font-semibold text-secondary mb-2">代码会被上传到云端吗？</h3>
+                            <p class="text-gray-600">不会。AutoJava 完全在本地运行，代码不会离开你的机器。AI 审计功能仅将代码片段发送给你配置的 AI 服务商（如 Kimi、通义千问等），不会经过我们的服务器。</p>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-gray-200 p-6">
+                            <h3 class="font-semibold text-secondary mb-2">免费版有什么限制？</h3>
+                            <p class="text-gray-600">免费版可以使用基础的代码审计和文档生成功能，但不包含 AI 深度审计和自动修复功能。这些高级功能需要升级到团队版或更高版本。</p>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-gray-200 p-6">
+                            <h3 class="font-semibold text-secondary mb-2">支持哪些 AI 服务商？</h3>
+                            <p class="text-gray-600">目前支持通义千问（阿里云）、文心一言（百度）、讯飞星火（科大讯飞）、Kimi（月之暗面）等国内主流大模型。后续会根据需求增加更多服务商。</p>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-gray-200 p-6">
+                            <h3 class="font-semibold text-secondary mb-2">如何获取技术支持？</h3>
+                            <p class="text-gray-600">免费版用户可以通过 GitHub Issues 获取社区支持。付费版用户享有优先技术支持，企业版和买断版用户还可获得 1 对 1 专属支持。</p>
+                        </div>
+                        <div class="bg-white rounded-2xl border border-gray-200 p-6">
+                            <h3 class="font-semibold text-secondary mb-2">修复代码会覆盖原文件吗？</h3>
+                            <p class="text-gray-600">修复前会自动创建备份文件（.backup.时间戳.java），原文件会被修改。建议修复后仔细审查变更，如有问题可从备份文件恢复。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Back to Top -->
+                <div class="text-center py-8">
+                    <a href="#" class="inline-flex items-center text-primary hover:text-primary-dark transition font-medium">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+                        </svg>
+                        返回顶部
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-8 md:ml-72">
+        <div class="max-w-4xl mx-auto px-6 lg:px-10 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 AutoJava. All rights reserved. | <a href="index.html" class="hover:text-primary transition">返回首页</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Copy code function
+        function copyCode(button) {
+            const codeBlock = button.closest('.code-block');
+            const code = codeBlock.querySelector('code').textContent;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                button.textContent = '已复制';
+                button.classList.add('copied');
+                button.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+                button.classList.add('bg-green-600');
+                
+                setTimeout(() => {
+                    button.textContent = '复制';
+                    button.classList.remove('copied');
+                    button.classList.remove('bg-green-600');
+                    button.classList.add('bg-gray-700', 'hover:bg-gray-600');
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+            });
+        }
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+
+        // Close sidebar when clicking a link on mobile
+        sidebar.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href === '#') {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    return;
+                }
+                
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight active section in sidebar
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.sidebar-link');
+
+        function highlightActiveLink() {
+            const scrollPosition = window.scrollY + 100;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + sectionId) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        window.addEventListener('scroll', highlightActiveLink);
+        highlightActiveLink();
+
+        // Copy code function for all code blocks
+        document.querySelectorAll('.code-block').forEach(block => {
+            if (!block.querySelector('.copy-btn')) {
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded text-xs font-medium transition';
+                copyBtn.textContent = '复制';
+                copyBtn.onclick = () => copyCode(copyBtn);
+                block.style.position = 'relative';
+                block.appendChild(copyBtn);
+            }
+        });
+    </script>
+</body>
+</html>
