@@ -9,12 +9,11 @@ import java.util.concurrent.Callable;
 @picocli.CommandLine.Command(
         name = "autojav",
         version = "1.0.0",
-        description = "Java后端AI提效CLI工具",
+        description = "Java代码审计CLI工具",
         subcommands = {
                 AuditCommand.class,
                 DocCommand.class,
-                ConfigCommand.class,
-                LicenseCommand.class
+                ConfigCommand.class
         }
 )
 public class Main implements Callable<Integer> {
