@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoJava - Java后端AI提效工具</title>
+    <meta name="description" content="AutoJava是一款基于AI技术的Java后端开发提效工具，支持代码审计、自动修复、接口文档生成，让开发效率提升10倍">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#2563eb',
+                        'primary-dark': '#1d4ed8',
+                        secondary: '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+        }
+        .pricing-card:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-secondary">Auto<span class="text-primary">Java</span></span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-primary transition">功能</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-primary transition">定价</a>
+                    <a href="docs.html" class="text-gray-600 hover:text-primary transition">文档</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="https://github.com/your-repo/autojav" target="_blank" class="text-gray-600 hover:text-secondary transition">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <a href="#download" class="bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-lg font-medium transition">免费下载</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient pt-32 pb-20 lg:pt-40 lg:pb-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="inline-flex items-center px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-8">
+                    <span class="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
+                    v1.0.1 正式发布
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                    让 AI 接管你的<br>
+                    <span class="gradient-text">重复性编码工作</span>
+                </h1>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto mb-10">
+                    AutoJava 是一款专业的 Java 后端 AI 提效工具，基于 JavaParser 深度解析代码，
+                    集成阿里开发规范与大模型能力，实现代码审计、自动修复、文档生成一站式解决。
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#download" class="w-full sm:w-auto bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-semibold text-lg transition flex items-center justify-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        免费下载使用
+                    </a>
+                    <a href="#pricing" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white border border-white/20 px-8 py-4 rounded-xl font-semibold text-lg transition flex items-center justify-center">
+                        查看定价
+                    </a>
+                </div>
+                <div class="mt-12 flex justify-center items-center space-x-8 text-gray-500 text-sm">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        纯本地运行
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        代码不上云
+                    </div>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        永久免费版
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-12 bg-gray-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-3xl md:text-4xl font-bold text-secondary">10x</div>
+                    <div class="text-gray-600 mt-1">效率提升</div>
+                </div>
+                <div>
+                    <div class="text-3xl md:text-4xl font-bold text-secondary">50+</div>
+                    <div class="text-gray-600 mt-1">审计规则</div>
+                </div>
+                <div>
+                    <div class="text-3xl md:text-4xl font-bold text-secondary">4</div>
+                    <div class="text-gray-600 mt-1">AI服务商</div>
+                </div>
+                <div>
+                    <div class="text-3xl md:text-4xl font-bold text-secondary">0</div>
+                    <div class="text-gray-600 mt-1">代码泄露风险</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 lg:py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-4">专注解决实际问题</h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">不搞花哨功能，每一行代码都为提升你的开发效率服务</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="feature-card bg-white p-8 rounded-2xl border border-gray-200 shadow-sm transition duration-300">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary mb-3">智能代码审计</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        基于 JavaParser 深度解析代码结构，内置阿里巴巴 Java 开发规范，自动识别 NPE、SQL 注入等潜在问题。
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card bg-white p-8 rounded-2xl border border-gray-200 shadow-sm transition duration-300">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary mb-3">AI 自动修复</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        对接通义千问、Kimi 等主流大模型，一键生成修复方案，预览对比后确认替换，自动生成备份保障安全。
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card bg-white p-8 rounded-2xl border border-gray-200 shadow-sm transition duration-300">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary mb-3">接口文档生成</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        自动解析 Spring 注解，生成 Markdown 或 OpenAPI 3.0 规范文档，支持导出导入，告别手写文档。
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card bg-white p-8 rounded-2xl border border-gray-200 shadow-sm transition duration-300">
+                    <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary mb-3">本地安全运行</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        纯本地处理，代码不上传云端，零泄露风险。支持私有化部署，满足企业安全合规要求。
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="feature-card bg-white p-8 rounded-2xl border border-gray-200 shadow-sm transition duration-300">
+                    <div class="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-cyan-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary mb-3">CLI 极速体验</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        基于 Picocli 构建的命令行工具，一条命令完成审计、修复、文档生成，无需打开 IDE 即可高效工作。
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="feature-card bg-white p-8 rounded-2xl border border-gray-200 shadow-sm transition duration-300">
+                    <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary mb-3">多 AI 服务适配</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        支持通义千问、文心一言、讯飞星火、Kimi 等国内主流大模型，自由切换，满足不同场景需求。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-4">三步开始使用</h2>
+                <p class="text-xl text-gray-600">无需复杂配置，即装即用</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-primary text-white rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-6">1</div>
+                    <h3 class="text-xl font-bold text-secondary mb-3">下载安装</h3>
+                    <p class="text-gray-600">下载 JAR 包，无需安装，Java 环境即可运行</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-primary text-white rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-6">2</div>
+                    <h3 class="text-xl font-bold text-secondary mb-3">配置 AI（可选）</h3>
+                    <p class="text-gray-600">如需 AI 功能，配置 API 密钥即可，支持多家服务商</p>
+                </div>
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-primary text-white rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-6">3</div>
+                    <h3 class="text-xl font-bold text-secondary mb-3">开始提效</h3>
+                    <p class="text-gray-600">执行命令，即刻体验 AI 带来的开发效率提升</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo/Code Section -->
+    <section class="py-20 lg:py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-6">命令行操作，<br>简洁高效</h2>
+                    <p class="text-xl text-gray-600 mb-8">
+                        无需打开繁重的 IDE，一条命令完成代码审计、AI 修复、文档生成。适合批量处理、CI/CD 集成、自动化脚本等场景。
+                    </p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-gray-700">审计单个文件或整个目录</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-gray-700">AI 深度分析与自动修复</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-gray-700">自动生成 Markdown/OpenAPI 文档</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-gray-700">自动备份，安全无忧</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-secondary rounded-2xl p-6 overflow-hidden">
+                    <div class="flex items-center mb-4">
+                        <div class="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <pre class="text-sm text-gray-300 overflow-x-auto"><code><span class="text-gray-500"># 代码审计</span>
+<span class="text-blue-400">$</span> autojav audit src/ -r
+✓ 发现 12 处潜在问题
+✓ 生成审计报告: audit-report.html
+
+<span class="text-gray-500"># AI 深度审计</span>
+<span class="text-blue-400">$</span> autojav audit UserService.java -ai
+✓ AI 分析完成
+✓ 发现 3 处高风险问题
+✓ 建议修复方案已生成
+
+<span class="text-gray-500"># 一键修复</span>
+<span class="text-blue-400">$</span> autojav audit UserService.java -f
+✓ 备份已创建: UserService.java.bak
+✓ 修复完成，请确认变更
+
+<span class="text-gray-500"># 生成接口文档</span>
+<span class="text-blue-400">$</span> autojav doc src/ -f openapi
+✓ OpenAPI 文档已生成
+✓ 输出: api-docs.json</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 lg:py-32 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-4">选择适合你的版本</h2>
+                <p class="text-xl text-gray-600">免费版永久可用，付费版解锁更多生产力</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Free -->
+                <div class="pricing-card bg-white rounded-2xl border border-gray-200 p-8 transition duration-300">
+                    <h3 class="text-xl font-bold text-secondary mb-2">免费版</h3>
+                    <p class="text-gray-500 text-sm mb-6">个人开发者入门</p>
+                    <div class="text-4xl font-bold text-secondary mb-6">¥0</div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            基础代码审计
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            基础文档生成
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            配置管理
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            AI 审计
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            代码修复
+                        </li>
+                    </ul>
+                    <button class="w-full py-3 border-2 border-primary text-primary rounded-xl font-semibold hover:bg-primary hover:text-white transition">
+                        免费下载
+                    </button>
+                </div>
+
+                <!-- Team -->
+                <div class="pricing-card bg-white rounded-2xl border-2 border-primary p-8 transition duration-300 relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <span class="bg-primary text-white px-4 py-1 rounded-full text-sm font-medium">最受欢迎</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-secondary mb-2">团队版</h3>
+                    <p class="text-gray-500 text-sm mb-6">小团队提效首选</p>
+                    <div class="text-4xl font-bold text-secondary mb-6">¥99<span class="text-lg text-gray-500">/人/年</span></div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            免费版全部功能
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            AI 深度审计
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            代码自动修复
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            团队协作功能
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            自定义模板
+                        </li>
+                    </ul>
+                    <button class="w-full py-3 bg-primary text-white rounded-xl font-semibold hover:bg-primary-dark transition">
+                        立即购买
+                    </button>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="pricing-card bg-white rounded-2xl border border-gray-200 p-8 transition duration-300">
+                    <h3 class="text-xl font-bold text-secondary mb-2">企业版</h3>
+                    <p class="text-gray-500 text-sm mb-6">企业级解决方案</p>
+                    <div class="text-4xl font-bold text-secondary mb-6">¥299<span class="text-lg text-gray-500">/人/年</span></div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            团队版全部功能
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            自定义审计模板
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            私有化部署支持
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            CI/CD 集成支持
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            优先技术支持
+                        </li>
+                    </ul>
+                    <button class="w-full py-3 border-2 border-primary text-primary rounded-xl font-semibold hover:bg-primary hover:text-white transition">
+                        联系销售
+                    </button>
+                </div>
+
+                <!-- Lifetime -->
+                <div class="pricing-card bg-white rounded-2xl border border-gray-200 p-8 transition duration-300">
+                    <h3 class="text-xl font-bold text-secondary mb-2">买断版</h3>
+                    <p class="text-gray-500 text-sm mb-6">一次付费永久使用</p>
+                    <div class="text-4xl font-bold text-secondary mb-6">¥999<span class="text-lg text-gray-500">/人</span></div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            企业版全部功能
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            永久使用权限
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            终身免费更新
+                        </li>
+                        <li class="flex items-center text-gray-600">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            1对1专属支持
+                        </li>
+                    </ul>
+                    <button class="w-full py-3 border-2 border-gray-300 text-gray-700 rounded-xl font-semibold hover:border-primary hover:text-primary transition">
+                        立即购买
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <section id="docs" class="py-20 lg:py-32 bg-gray-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-4">使用文档</h2>
+                <p class="text-xl text-gray-600">快速上手 AutoJava，提升你的开发效率</p>
+            </div>
+
+            <!-- Quick Start -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">1</span>
+                    快速开始
+                </h3>
+                <div class="space-y-4 text-gray-700">
+                    <p><strong>环境要求：</strong>Java 17 或更高版本</p>
+                    <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                        <pre class="text-sm text-gray-300"><code># 1. 下载 JAR 包（点击上方下载按钮）
+
+# 2. 验证安装
+java -jar autojav-cli-1.0.0.jar --help
+
+# 3. 查看版本
+java -jar autojav-cli-1.0.0.jar --version</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuration -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">2</span>
+                    配置 AI 服务（可选）
+                </h3>
+                <div class="space-y-4 text-gray-700">
+                    <p>如需使用 AI 功能，需要配置 API 密钥。支持 Kimi、通义千问、文心一言等。</p>
+                    <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                        <pre class="text-sm text-gray-300"><code># 配置 Kimi API 密钥
+java -jar autojav-cli-1.0.0.jar config set ai.api.key sk-your-api-key
+
+# 配置 AI 服务商（kimi/qwen/ernie/spark）
+java -jar autojav-cli-1.0.0.jar config set ai.service.type kimi
+
+# 查看所有配置
+java -jar autojav-cli-1.0.0.jar config list</code></pre>
+                    </div>
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                        <p class="text-sm text-blue-700"><strong>提示：</strong>API 密钥仅存储在本地，不会上传到任何服务器。免费版无需配置 AI 即可使用基础功能。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Audit -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">3</span>
+                    代码审计
+                </h3>
+                <div class="space-y-6 text-gray-700">
+                    <div>
+                        <h4 class="font-semibold text-secondary mb-2">基础审计（免费版可用）</h4>
+                        <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                            <pre class="text-sm text-gray-300"><code># 审计单个文件
+java -jar autojav-cli-1.0.0.jar audit UserService.java
+
+# 递归审计整个目录
+java -jar autojav-cli-1.0.0.jar audit src/ -r
+
+# 输出审计报告到文件
+java -jar autojav-cli-1.0.0.jar audit src/ -r -o report.txt</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-secondary mb-2">AI 深度审计（团队版+）</h4>
+                        <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                            <pre class="text-sm text-gray-300"><code># 使用 AI 进行深度分析
+java -jar autojav-cli-1.0.0.jar audit UserService.java -ai</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-secondary mb-2">支持的审计规则</h4>
+                        <ul class="list-disc list-inside space-y-1 text-gray-600 ml-4">
+                            <li>空指针异常风险检测</li>
+                            <li>SQL 注入风险检测</li>
+                            <li>更多规则持续更新中...</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Fix -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">4</span>
+                    代码修复（团队版+）
+                </h3>
+                <div class="space-y-4 text-gray-700">
+                    <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                        <pre class="text-sm text-gray-300"><code># 预览修复（不实际修改文件）
+java -jar autojav-cli-1.0.0.jar audit UserService.java -f -p
+
+# 执行修复（自动备份原文件）
+java -jar autojav-cli-1.0.0.jar audit UserService.java -f
+
+# 修复整个目录（逐个确认）
+java -jar autojav-cli-1.0.0.jar audit src/ -r -f</code></pre>
+                    </div>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded">
+                        <p class="text-sm text-yellow-700"><strong>注意：</strong>修复前会自动创建 .backup.时间戳.java 备份文件。修复后请仔细审查变更，必要时可手动恢复。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doc Generation -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">5</span>
+                    接口文档生成
+                </h3>
+                <div class="space-y-4 text-gray-700">
+                    <p>自动解析 Spring Boot 项目的 Controller 接口，生成标准化文档。</p>
+                    <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                        <pre class="text-sm text-gray-300"><code># 生成 Markdown 格式文档
+java -jar autojav-cli-1.0.0.jar doc src/ -f markdown -o api.md
+
+# 生成 OpenAPI (Swagger) JSON 格式
+java -jar autojav-cli-1.0.0.jar doc src/ -f openapi -o api.json
+
+# 递归扫描所有子目录
+java -jar autojav-cli-1.0.0.jar doc src/ -r -f markdown -o api.md</code></pre>
+                    </div>
+                    <div class="text-sm text-gray-600">
+                        <p class="font-medium mb-2">支持的注解：</p>
+                        <code class="bg-gray-100 px-2 py-1 rounded">@RestController</code>
+                        <code class="bg-gray-100 px-2 py-1 rounded">@GetMapping</code>
+                        <code class="bg-gray-100 px-2 py-1 rounded">@PostMapping</code>
+                        <code class="bg-gray-100 px-2 py-1 rounded">@PutMapping</code>
+                        <code class="bg-gray-100 px-2 py-1 rounded">@DeleteMapping</code>
+                        <code class="bg-gray-100 px-2 py-1 rounded">@RequestMapping</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- License Management -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8 mb-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">6</span>
+                    许可证管理
+                </h3>
+                <div class="space-y-6 text-gray-700">
+                    <div>
+                        <h4 class="font-semibold text-secondary mb-2">免费试用</h4>
+                        <p class="mb-2">新用户自动获得 7 天团队版试用，或使用命令手动开启：</p>
+                        <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                            <pre class="text-sm text-gray-300"><code>java -jar autojav-cli-1.0.0.jar license trial</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-secondary mb-2">激活正式版</h4>
+                        <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                            <pre class="text-sm text-gray-300"><code># 激活许可证
+java -jar autojav-cli-1.0.0.jar license activate YOUR-LICENSE-KEY
+
+# 查看许可证信息
+java -jar autojav-cli-1.0.0.jar license info</code></pre>
+                        </div>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                        <p class="text-sm text-green-700"><strong>免费版：</strong>永久可用，包含基础代码审计和文档生成功能。升级到团队版解锁 AI 深度审计和代码修复。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CI/CD Integration -->
+            <div class="bg-white rounded-2xl border border-gray-200 p-8">
+                <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                    <span class="w-10 h-10 bg-primary text-white rounded-lg flex items-center justify-center mr-3 text-lg">7</span>
+                    CI/CD 集成示例
+                </h3>
+                <div class="space-y-4 text-gray-700">
+                    <p>在持续集成流程中自动执行代码审计：</p>
+                    <div class="bg-secondary rounded-xl p-4 overflow-x-auto">
+                        <pre class="text-sm text-gray-300"><code># GitHub Actions 示例
+- name: Code Audit
+  run: |
+    wget https://autojav.vercel.app/autojav-cli-1.0.0.jar
+    java -jar autojav-cli-1.0.0.jar audit src/ -r -o audit-report.txt
+    
+# GitLab CI 示例
+code_audit:
+  script:
+    - wget https://autojav.vercel.app/autojav-cli-1.0.0.jar
+    - java -jar autojav-cli-1.0.0.jar audit src/ -r</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-4">常见问题</h2>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="border border-gray-200 rounded-xl p-6">
+                    <h3 class="font-semibold text-secondary mb-2">代码会被上传到云端吗？</h3>
+                    <p class="text-gray-600">不会。AutoJava 完全在本地运行，代码不会离开你的机器。AI 审计功能仅将代码片段发送给你配置的 AI 服务商（如 Kimi、通义千问等），不会经过我们的服务器。</p>
+                </div>
+                <div class="border border-gray-200 rounded-xl p-6">
+                    <h3 class="font-semibold text-secondary mb-2">免费版有什么限制？</h3>
+                    <p class="text-gray-600">免费版可以使用基础的代码审计和文档生成功能，但不包含 AI 深度审计和自动修复功能。这些高级功能需要升级到团队版或更高版本。</p>
+                </div>
+                <div class="border border-gray-200 rounded-xl p-6">
+                    <h3 class="font-semibold text-secondary mb-2">支持哪些 AI 服务商？</h3>
+                    <p class="text-gray-600">目前支持通义千问（阿里云）、文心一言（百度）、讯飞星火（科大讯飞）、Kimi（月之暗面）等国内主流大模型。后续会根据需求增加更多服务商。</p>
+                </div>
+                <div class="border border-gray-200 rounded-xl p-6">
+                    <h3 class="font-semibold text-secondary mb-2">如何获取技术支持？</h3>
+                    <p class="text-gray-600">免费版用户可以通过 GitHub Issues 获取社区支持。付费版用户享有优先技术支持，企业版和买断版用户还可获得 1 对 1 专属支持。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="download" class="py-20 bg-secondary">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">开始提升你的开发效率</h2>
+            <p class="text-xl text-gray-400 mb-10">立即下载免费版，体验 AI 带来的效率革命</p>
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="autojav-cli-1.0.0.jar" download class="w-full sm:w-auto bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-xl font-semibold text-lg transition flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    下载免费版 v1.0.0
+                </a>
+                <a href="https://github.com/your-repo/autojav" target="_blank" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white border border-white/20 px-8 py-4 rounded-xl font-semibold text-lg transition flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    GitHub 仓库
+                </a>
+            </div>
+            <p class="text-gray-500 mt-6 text-sm">需要 Java 17 或更高版本</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <span class="text-2xl font-bold text-white">Auto<span class="text-primary">Java</span></span>
+                    <p class="mt-4 text-sm">Java 后端 AI 提效工具，让开发更高效。</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">产品</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#features" class="hover:text-white transition">功能</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition">定价</a></li>
+                        <li><a href="#download" class="hover:text-white transition">下载</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">资源</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="docs.html" class="hover:text-white transition">文档</a></li>
+                        <li><a href="#" class="hover:text-white transition">更新日志</a></li>
+                        <li><a href="#faq" class="hover:text-white transition">常见问题</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">联系</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">GitHub</a></li>
+                        <li><a href="#" class="hover:text-white transition">邮件支持</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-sm">
+                <p>&copy; 2026 AutoJava. All rights reserved. | <a href="#" class="hover:text-white">隐私政策</a> | <a href="#" class="hover:text-white">使用条款</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-sm');
+            } else {
+                nav.classList.remove('shadow-sm');
+            }
+        });
+    </script>
+</body>
+</html>

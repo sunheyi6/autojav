@@ -102,4 +102,15 @@ public class FeaturePermissions {
     public Map<String, Boolean> getAllPermissions() {
         return permissions;
     }
+
+    /**
+     * 判断功能是否为免费功能
+     * @param feature 功能名称
+     * @return 是否为免费功能
+     */
+    public static boolean isFreeFeature(String feature) {
+        return "code.audit".equals(feature) || 
+               "doc.generate".equals(feature) || 
+               "config.manage".equals(feature);
+    }
 }
