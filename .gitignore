@@ -13,6 +13,9 @@ target/
 *.tar.gz
 *.rar
 
+# Allow jar in website for download
+!website/*.jar
+
 # Dependency directories
 node_modules/
 jre/
