@@ -131,19 +131,36 @@ java -jar target/autojav-cli-1.0.0-SNAPSHOT.jar config list
 
 #### 4. 使用功能
 
+##### 快速开始（使用示例文件）
+
+如果你刚下载了工具，可以使用内置的示例文件快速体验：
+
+```bash
+# 解压 releases/autojav-cli-1.0.1.zip 后，进入解压目录
+# 示例文件位于 examples/ 目录下
+
+# 审计 SQL 注入示例文件
+java -jar autojav-cli-1.0.1.jar audit examples/sql-injection/UserService.java
+```
+
+**注意**: `examples/sql-injection/UserService.java` 是示例占位符路径，请确保该文件存在于你的当前工作目录中，或替换为实际的 Java 文件路径。
+
 ##### 代码审计
 ```bash
-# 审计单个Java文件
-java -jar target/autojav-cli-1.0.0-SNAPSHOT.jar audit path/to/your/File.java
+# 审计单个Java文件（使用绝对路径或相对路径）
+java -jar autojav-cli-1.0.1.jar audit /path/to/your/ActualFile.java
+
+# 审计当前目录下的文件
+java -jar autojav-cli-1.0.1.jar audit ./MyClass.java
 
 # 审计整个目录
-java -jar target/autojav-cli-1.0.0-SNAPSHOT.jar audit path/to/your/directory -r
+java -jar autojav-cli-1.0.1.jar audit /path/to/your/directory -r
 
 # 使用AI进行深度审计（需要先配置API密钥）
-java -jar target/autojav-cli-1.0.0-SNAPSHOT.jar audit path/to/your/File.java -ai
+java -jar autojav-cli-1.0.1.jar audit /path/to/your/File.java -ai
 
 # 自动修复代码问题
-java -jar target/autojav-cli-1.0.0-SNAPSHOT.jar audit path/to/your/File.java -f
+java -jar autojav-cli-1.0.1.jar audit /path/to/your/File.java -f
 ```
 
 ##### 文档生成

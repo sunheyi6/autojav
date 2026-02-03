@@ -126,7 +126,15 @@ public class AuditCommand implements Callable<Integer> {
                 }
             }
         } else {
-            TerminalUtils.printError("无效的路径: " + path);
+            File checkFile = new File(path);
+            if (!checkFile.exists()) {
+                TerminalUtils.printError("路径不存在: " + path);
+                TerminalUtils.printInfo("当前工作目录: " + System.getProperty("user.dir"));
+                TerminalUtils.printInfo("提示: 请提供有效的Java文件或目录路径");
+                TerminalUtils.printInfo("示例: java -jar autojav-cli-1.0.0.jar audit /path/to/YourFile.java");
+            } else {
+                TerminalUtils.printError("无效的路径（不是文件也不是目录）: " + path);
+            }
             return 1;
         }
 
