@@ -60,4 +60,6 @@ release.properties
 
 # Test files
 test-files/
+test-licenses.md
+scripts/generate-test-licenses.bat
 
