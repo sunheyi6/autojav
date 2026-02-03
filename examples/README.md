@@ -2,6 +2,50 @@
 
 本目录包含 AutoJava 工具的使用示例，展示如何使用工具检测和修复常见的 Java 代码问题。
 
+## 快速开始
+
+### 下载 JAR 包后如何使用
+
+**方式一：将 JAR 包和示例文件放在同一目录**
+
+```bash
+# 1. 下载 autojav-cli-1.0.0.jar
+# 2. 将 JAR 包复制到 examples 目录
+# 3. 进入 examples 目录
+cd examples
+
+# 审计单个文件
+java -jar autojav-cli-1.0.0.jar audit sql-injection/UserService.java
+
+# 批量审计所有示例
+java -jar autojav-cli-1.0.0.jar audit . -r
+```
+
+**方式二：使用绝对路径（推荐）**
+
+```bash
+# JAR 包在任意目录，使用绝对路径审计示例文件
+java -jar autojav-cli-1.0.0.jar audit D:\path\to\examples\sql-injection\UserService.java
+
+# Windows 示例
+java -jar autojav-cli-1.0.0.jar audit C:\Users\YourName\Downloads\examples\sql-injection\UserService.java
+
+# Linux/Mac 示例
+java -jar autojav-cli-1.0.0.jar audit /home/user/examples/sql-injection/UserService.java
+```
+
+**方式三：审计自己的项目**
+
+```bash
+# 审计你的项目目录
+java -jar autojav-cli-1.0.0.jar audit D:\your\project\src -r
+
+# 生成审计报告
+java -jar autojav-cli-1.0.0.jar audit D:\your\project\src -r -o report.txt
+```
+
+---
+
 ## 示例目录
 
 ### 1. SQL 注入问题示例 (`sql-injection/`)
